@@ -37,7 +37,7 @@ final class Commands
 {
     #[Cmd('myplugin', 'showoff')]
     #[permission('myplugin.command.showoff')]
-    #[sender(player: true), enum('dance', 'dig', 'mine'), raw(count: null)]
+    #[sender(), enum('dance', 'dig', 'mine'), remaining()]
     public function showOff(Player $sender, string $dance, array $message): void
     {
         $sender->sendActionBarMessage("Dancing ($dance) - $message");
