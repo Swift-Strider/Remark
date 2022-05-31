@@ -114,7 +114,7 @@ If it's corresponding parameter has the type
 automatically. Otherwise the type of the
 parameter must be CommandSender.
 
-*`sender()` does not take any arguments.*
+`sender()` does not take any arguments.*
 
 ## player_arg
 An `Arg` that extracts a `Player` using
@@ -124,23 +124,25 @@ private bool $exact = false,
 ```
 * exact - whether to not match by prefix
 
-## raw
+## text
 An `Arg` that extracts one or more strings
-from the command arguments.
+from the command arguments. Depending on the
+parameters given to this Arg, the corresponding
+parameter must have a type of `string`,
+`?string`, or `array`.
 ```php
-private ?int $count = 1,
+private int $count = 1,
+private bool $require = true,
 ```
-* exact - number of arguments to take, if null
-takes the remaining arguments
+* count - number of arguments to take
+* require - wether to fail if the number
+  of arguments remaining is less than count
 
-## raw
-An `Arg` that extracts one or more strings
+## remaining
+An `Arg` that extracts the remaining strings
 from the command arguments.
-```php
-private ?int $count = 1,
-```
-* exact - number of arguments to take, if null
-takes the remaining arguments
+
+`remaining()` does not take any arguments.*
 
 ## enum
 An `Arg` that extracts a string that must be
