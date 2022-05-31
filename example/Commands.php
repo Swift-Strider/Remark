@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace example;
+
+use DiamondStrider1\Remark\Arg\enum;
+use DiamondStrider1\Remark\Arg\raw;
+use DiamondStrider1\Remark\Arg\sender;
+use DiamondStrider1\Remark\Cmd;
+use DiamondStrider1\Remark\CmdConfig;
+use DiamondStrider1\Remark\Guard\permission;
+use pocketmine\player\Player;
+
+#[CmdConfig(
+    name: 'myplugin',
+    description: "Access my plugin through subcommands",
+    aliases: [],
+    permissions: ['myplugin.command']
+)]
+final class Commands
+{
+    // 'myplugin' is the command, 'showoff' is the subcommand.
+    // There may be as many subcommands as you want.
+    #[Cmd('myplugin', 'showoff')]
+    // permission is a Guard.
+    #[permission('myplugin.command.showoff')]
+    // There is one Arg for every parameter.
+    #[sender(player: true), enum('dance', 'dig', 'mine'), raw(count: null)]
+    public function showOff(Player $sender, string $dance, array $message): void
+    {
+        $sender->sendActionBarMessage("Dancing ($dance) - $message");
+    }
+}
