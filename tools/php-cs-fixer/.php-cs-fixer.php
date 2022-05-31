@@ -11,5 +11,8 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setRules([
         '@Symfony' => true,
+        'phpdoc_to_comment' => [
+            'ignored_tags' => ['var']
+        ]
     ])
     ->setFinder($finder);

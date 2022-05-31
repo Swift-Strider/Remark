@@ -24,6 +24,8 @@ use pocketmine\Server;
 )]
 final class player_arg implements Arg
 {
+    use SetParameterTrait;
+
     /**
      * @param bool $exact whether to not match by prefix
      */

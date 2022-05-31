@@ -26,7 +26,7 @@ final class Commands
     // permission is a Guard.
     #[permission('myplugin.command.showoff')]
     // There is one Arg for every parameter.
-    #[sender(player: true), enum('dance', 'dig', 'mine'), raw(count: null)]
+    #[sender(), enum('dance', 'dig', 'mine'), raw(count: null)]
     public function showOff(Player $sender, string $dance, array $message): void
     {
         $sender->sendActionBarMessage("Dancing ($dance) - $message");

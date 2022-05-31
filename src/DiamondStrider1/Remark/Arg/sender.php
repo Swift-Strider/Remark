@@ -6,9 +6,12 @@ namespace DiamondStrider1\Remark\Arg;
 
 use Attribute;
 use DiamondStrider1\Remark\CommandContext;
+use InvalidArgumentException;
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 use pocketmine\player\Player;
+use ReflectionNamedType;
+use ReflectionParameter;
 
 /**
  * Matches the sender and optionally fails if the sender is
@@ -22,12 +25,25 @@ use pocketmine\player\Player;
 )]
 final class sender implements Arg
 {
-    /**
-     * @param bool $player require the sender to be a player
-     */
-    public function __construct(
-        private bool $player = false,
-    ) {
+    use SetParameterTrait;
+    private bool $player;
+
+    public function setParameter(ReflectionParameter $parameter): void
+    {
+        $type = $parameter->getType();
+        if (
+            !$type instanceof ReflectionNamedType ||
+            (
+                CommandSender::class !== $type->getName() &&
+                Player::class !== $type->getName()
+            )
+        ) {
+            $name = $parameter->getName();
+            throw new InvalidArgumentException("The parameter ($name) corresponding to `sender()` Arg must have a type of either CommandSender or Player!");
+        }
+
+        $this->player = Player::class === $type->getName();
+        $this->parameter = $parameter;
     }
 
     public function extract(CommandContext $context, ArgumentStack $args): mixed

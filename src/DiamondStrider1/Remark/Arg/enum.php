@@ -20,6 +20,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 )]
 final class enum implements Arg
 {
+    use SetParameterTrait;
     /** @var string[] */
     private array $choices;
     /** @var bool[] */

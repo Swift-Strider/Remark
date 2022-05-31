@@ -53,9 +53,15 @@ final class Remark
             $guards = array_map(fn ($x) => $x->newInstance(), $guards);
             $args = $m->getAttributes(Arg::class, ReflectionAttribute::IS_INSTANCEOF);
             $args = array_map(fn ($x) => $x->newInstance(), $args);
+            $parameters = $m->getParameters();
 
-            if (count($m->getParameters()) !== count($args)) {
+            if (count($parameters) !== count($args)) {
                 throw new InvalidArgumentException("There must be the same number of parameters as Arg's!");
+            }
+
+            foreach ($args as $index => $arg) {
+                /** @var Arg $arg */
+                $arg->setParameter($parameters[$index]);
             }
 
             $handlerMethod = new HandlerMethod($handler, $m, $guards, $args);

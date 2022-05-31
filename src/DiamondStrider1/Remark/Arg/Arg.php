@@ -6,6 +6,7 @@ namespace DiamondStrider1\Remark\Arg;
 
 use DiamondStrider1\Remark\CommandContext;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
+use ReflectionParameter;
 
 /**
  * Parses a value to be passed as
@@ -15,6 +16,12 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
  */
 interface Arg
 {
+    /**
+     * Set the parameter the Arg is associated with.
+     * This is guaranteed to be called before any other methods.
+     */
+    public function setParameter(ReflectionParameter $parameter): void;
+
     /**
      * Extracts the value from the given context.
      * The argument may pop from the ArgumentStack to

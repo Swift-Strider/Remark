@@ -108,14 +108,13 @@ string ...$otherPermissions,
 * otherPermissions - Other required permissions
 
 ## sender
-An `Arg` that extracts the `CommandSender`,
-optionally requiring the sender to be an
-instance-of `Player`.
-```php
-private bool $player = false,
-```
-* player - whether to check if sender is an
-instance-of `Player`
+An `Arg` that extracts the `CommandSender`.
+If it's corresponding parameter has the type
+`Player` it will do an instance-of check
+automatically. Otherwise the type of the
+parameter must be CommandSender.
+
+*`sender()` does not take any arguments.*
 
 ## player_arg
 An `Arg` that extracts a `Player` using

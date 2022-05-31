@@ -26,6 +26,8 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 )]
 final class raw implements Arg
 {
+    use SetParameterTrait;
+
     /**
      * @param ?int $count when null matches the remaining arguments
      */
