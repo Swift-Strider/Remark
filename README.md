@@ -1,5 +1,13 @@
 # Remark - UI for PocketMine-MP plugins
 
+<p align="center">
+<img src="assets/icon.png" alt="Icon" width="262px" height="120px" />
+</p>
+
+<p align="center">
+Easy and <u>A</u>synchronous Commands and Forms
+</p>
+
 What you **WON'T** get:
 * ❌ Boilerplate
 * ❌ Fragile command handling
@@ -8,7 +16,7 @@ What you **WON'T** get:
 What you **WILL** get:
 * ✔ Readable command handlers
 * ✔ `TAB`-completion for commands in-game
-* ✔ Extensible through custom parameters types
+* ✔ Extensibility through custom parameters types
 
 # Example
 
