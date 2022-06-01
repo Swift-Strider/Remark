@@ -16,7 +16,7 @@ What you **WON'T** get:
 What you **WILL** get:
 * ✔ Readable command handlers
 * ✔ `TAB`-completion for commands in-game
-* ✔ Extensibility through custom parameters types
+* ✔ Async, readable forms
 
 # Example
 
