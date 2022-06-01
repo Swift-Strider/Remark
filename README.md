@@ -161,7 +161,7 @@ parameter must be CommandSender.
 An `Arg` that extracts a `Player` using
 the name provided by a command argument.
 ```php
-private bool $exact = false,
+bool $exact = false,
 ```
 * exact - whether to not match by prefix
 
@@ -172,8 +172,8 @@ parameters given to this Arg, the corresponding
 parameter must have a type of `string`,
 `?string`, or `array`.
 ```php
-private int $count = 1,
-private bool $require = true,
+int $count = 1,
+bool $require = true,
 ```
 * count - number of arguments to take
 * require - wether to fail if the number
@@ -189,7 +189,7 @@ from the command arguments.
 An `Arg` that extracts a string that must be
 in an immutable set of predefined strings.
 ```php
-private string $name,
+string $name,
 string $choice,
 string ...$otherChoices,
 ```
