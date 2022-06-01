@@ -8,7 +8,9 @@ use DiamondStrider1\Remark\Command\Arg\Arg;
 use DiamondStrider1\Remark\Command\Arg\ArgumentStack;
 use DiamondStrider1\Remark\Command\Arg\ExtractionFailed;
 use DiamondStrider1\Remark\Command\Guard\Guard;
+use Generator;
 use ReflectionMethod;
+use SOFe\AwaitGenerator\Await;
 
 /**
  * Invokes its underlying method with converted
@@ -48,7 +50,10 @@ final class HandlerMethod
             return;
         }
 
-        $this->method->invokeArgs($this->handler, $parameters);
+        $generator = $this->method->invokeArgs($this->handler, $parameters);
+        if ($generator instanceof Generator) {
+            Await::g2c($generator);
+        }
     }
 
     /**
