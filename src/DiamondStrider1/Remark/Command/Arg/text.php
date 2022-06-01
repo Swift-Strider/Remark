@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Arg;
+namespace DiamondStrider1\Remark\Command\Arg;
 
 use Attribute;
-use DiamondStrider1\Remark\CommandContext;
+use DiamondStrider1\Remark\Command\CommandContext;
 use InvalidArgumentException;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket as ACP;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
@@ -19,7 +19,7 @@ use ReflectionParameter;
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
-    Attribute::TARGET_METHOD
+        Attribute::TARGET_METHOD
 )]
 final class text implements Arg
 {

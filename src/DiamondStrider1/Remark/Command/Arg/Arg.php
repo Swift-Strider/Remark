@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Arg;
+namespace DiamondStrider1\Remark\Command\Arg;
 
-use DiamondStrider1\Remark\CommandContext;
+use DiamondStrider1\Remark\Command\CommandContext;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 use ReflectionParameter;
 

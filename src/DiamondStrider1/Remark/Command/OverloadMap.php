@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark;
+namespace DiamondStrider1\Remark\Command;
 
 use pocketmine\network\mcpe\protocol\types\command\CommandEnum;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
@@ -38,7 +38,8 @@ final class OverloadMap
         $overload = [];
         foreach ($subNames as $subName) {
             $overload[] = CommandParameter::enum(
-                $subName, new CommandEnum($subName, [$subName]),
+                $subName,
+                new CommandEnum($subName, [$subName]),
                 CommandParameter::FLAG_FORCE_COLLAPSE_ENUM,
             );
         }

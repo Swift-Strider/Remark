@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace example;
 
-use DiamondStrider1\Remark\Arg\enum;
-use DiamondStrider1\Remark\Arg\remaining;
-use DiamondStrider1\Remark\Arg\sender;
-use DiamondStrider1\Remark\Cmd;
-use DiamondStrider1\Remark\CmdConfig;
-use DiamondStrider1\Remark\Guard\permission;
+use DiamondStrider1\Remark\Command\Arg\enum;
+use DiamondStrider1\Remark\Command\Arg\remaining;
+use DiamondStrider1\Remark\Command\Arg\sender;
+use DiamondStrider1\Remark\Command\Cmd;
+use DiamondStrider1\Remark\Command\CmdConfig;
+use DiamondStrider1\Remark\Command\Guard\permission;
 use pocketmine\player\Player;
 
 #[CmdConfig(

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark;
+namespace DiamondStrider1\Remark\Command;
 
-use DiamondStrider1\Remark\Arg\Arg;
-use DiamondStrider1\Remark\Arg\ArgumentStack;
-use DiamondStrider1\Remark\Arg\ExtractionFailed;
-use DiamondStrider1\Remark\Guard\Guard;
+use DiamondStrider1\Remark\Command\Arg\Arg;
+use DiamondStrider1\Remark\Command\Arg\ArgumentStack;
+use DiamondStrider1\Remark\Command\Arg\ExtractionFailed;
+use DiamondStrider1\Remark\Command\Guard\Guard;
 use ReflectionMethod;
 
 /**

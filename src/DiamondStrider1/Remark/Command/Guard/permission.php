@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Guard;
+namespace DiamondStrider1\Remark\Command\Guard;
 
 use Attribute;
-use DiamondStrider1\Remark\CommandContext;
+use DiamondStrider1\Remark\Command\CommandContext;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 final class permission implements Guard

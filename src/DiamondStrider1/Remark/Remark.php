@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace DiamondStrider1\Remark;
 
-use DiamondStrider1\Remark\Arg\Arg;
-use DiamondStrider1\Remark\Guard\Guard;
+use DiamondStrider1\Remark\Command\Arg\Arg;
+use DiamondStrider1\Remark\Command\BoundCommand;
+use DiamondStrider1\Remark\Command\Cmd;
+use DiamondStrider1\Remark\Command\CmdConfig;
+use DiamondStrider1\Remark\Command\CommandHintListener;
+use DiamondStrider1\Remark\Command\Guard\Guard;
+use DiamondStrider1\Remark\Command\HandlerMethod;
 use InvalidArgumentException;
 use pocketmine\command\CommandMap;
 use pocketmine\plugin\Plugin;
@@ -60,7 +65,7 @@ final class Remark
             }
 
             foreach ($args as $index => $arg) {
-                /** @var Arg $arg */
+                /** @var Arg $arg @phpstan-ignore-next-line */
                 $arg->setParameter($parameters[$index]);
             }
 

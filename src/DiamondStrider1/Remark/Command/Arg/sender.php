@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Arg;
+namespace DiamondStrider1\Remark\Command\Arg;
 
 use Attribute;
-use DiamondStrider1\Remark\CommandContext;
+use DiamondStrider1\Remark\Command\CommandContext;
 use InvalidArgumentException;
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
@@ -21,7 +21,7 @@ use ReflectionParameter;
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
-    Attribute::TARGET_METHOD
+        Attribute::TARGET_METHOD
 )]
 final class sender implements Arg
 {
@@ -33,8 +33,7 @@ final class sender implements Arg
         $type = $parameter->getType();
         if (
             !$type instanceof ReflectionNamedType ||
-            (
-                CommandSender::class !== $type->getName() &&
+            (CommandSender::class !== $type->getName() &&
                 Player::class !== $type->getName()
             )
         ) {

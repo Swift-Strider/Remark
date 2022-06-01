@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark;
+namespace DiamondStrider1\Remark\Command;
 
 use Attribute;
 
@@ -11,7 +11,7 @@ use Attribute;
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
-    Attribute::TARGET_METHOD
+        Attribute::TARGET_METHOD
 )]
 final class Cmd
 {

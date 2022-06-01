@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark;
+namespace DiamondStrider1\Remark\Command;
 
 /**
  * A tree of `HandlerMethod`s with a root at

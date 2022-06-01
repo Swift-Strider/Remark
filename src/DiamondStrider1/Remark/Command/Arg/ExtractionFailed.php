@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Arg;
+namespace DiamondStrider1\Remark\Command\Arg;
 
 use Exception;
 

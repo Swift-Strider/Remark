@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Arg;
+namespace DiamondStrider1\Remark\Command\Arg;
 
 use Attribute;
-use DiamondStrider1\Remark\CommandContext;
+use DiamondStrider1\Remark\Command\CommandContext;
 use pocketmine\network\mcpe\protocol\types\command\CommandEnum;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 
@@ -16,7 +16,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
-    Attribute::TARGET_METHOD
+        Attribute::TARGET_METHOD
 )]
 final class enum implements Arg
 {
@@ -57,7 +57,9 @@ final class enum implements Arg
     public function toCommandParameter(string $name): ?CommandParameter
     {
         return CommandParameter::enum(
-            $name, new CommandEnum($this->name, $this->choices), 0,
+            $name,
+            new CommandEnum($this->name, $this->choices),
+            0,
         );
     }
 }
