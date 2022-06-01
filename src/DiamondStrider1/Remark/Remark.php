@@ -30,7 +30,7 @@ final class Remark
      * Binds a handler's methods to a command map, by default
      * using the command map attached to the singleton Server instance.
      */
-    public static function bind(
+    public static function command(
         Plugin $plugin,
         object $handler,
         ?CommandMap $cm = null

@@ -19,9 +19,9 @@ In `Plugin.php`:
 ```php
 public function onEnable(): void
 {
-    // activate() and bind() should only be called once.
+    // activate() and command() should only be called once.
     Remark::activate($this); // Allows type hints to appear in-game.
-    Remark::bind($this, new Commands()); // Registers the commands to the server.
+    Remark::command($this, new Commands()); // Registers the commands to the server.
 }
 ```
 
@@ -47,7 +47,7 @@ final class Commands
 
 # Terminology
 
-`Remark::bind()` finds methods marked with the
+`Remark::command()` finds methods marked with the
 `Cmd` attribute, called HandlerMethods. A
 handler methods may have `Guards` and `Args`
 attached to it.
