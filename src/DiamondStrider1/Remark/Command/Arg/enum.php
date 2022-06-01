@@ -40,11 +40,12 @@ final class enum implements Arg
 
     public function extract(CommandContext $context, ArgumentStack $args): mixed
     {
-        $choice = $args->pop();
+        $component = $this->toUsageComponent($this->parameter->getName());
+        $choice = $args->pop("Required argument $component");
         if (isset($this->choiceSet[$choice])) {
             return $choice;
         }
-        throw new ExtractionFailed();
+        throw new ExtractionFailed("$choice does not satisfy $component");
     }
 
     public function toUsageComponent(string $name): ?string

@@ -72,7 +72,9 @@ final class text implements Arg
     public function extract(CommandContext $context, ArgumentStack $args): null|string|array
     {
         if (1 === $this->count && $this->require) {
-            return $args->pop();
+            $component = $this->toUsageComponent($this->parameter->getName());
+
+            return $args->pop("Required argument $component");
         } elseif (1 === $this->count) {
             return $args->tryPop();
         }
@@ -80,7 +82,8 @@ final class text implements Arg
         if ($this->require) {
             $collected = [];
             while (count($collected) < $this->count) {
-                $collected[] = $args->pop();
+                $component = $this->toUsageComponent($this->parameter->getName());
+                $collected[] = $args->pop("$component is not satisfied");
             }
 
             return $collected;

@@ -9,6 +9,8 @@ use DiamondStrider1\Remark\Command\Arg\ArgumentStack;
 use DiamondStrider1\Remark\Command\Arg\ExtractionFailed;
 use DiamondStrider1\Remark\Command\Guard\Guard;
 use Generator;
+use pocketmine\lang\Translatable;
+use pocketmine\utils\TextFormat as TF;
 use ReflectionMethod;
 use SOFe\AwaitGenerator\Await;
 
@@ -34,7 +36,12 @@ final class HandlerMethod
     public function invoke(CommandContext $context): void
     {
         foreach ($this->guards as $guard) {
-            if (!$guard->passes($context)) {
+            if (null !== ($message = $guard->passes($context))) {
+                if ($message instanceof Translatable) {
+                    $message = $context->sender()->getLanguage()->translate($message);
+                }
+                $context->sender()->sendMessage(TF::RED.$message);
+
                 return;
             }
         }
@@ -45,8 +52,13 @@ final class HandlerMethod
             foreach ($this->args as $arg) {
                 $parameters[] = $arg->extract($context, $stack);
             }
-        } catch (ExtractionFailed) {
-            // TODO: Handle extraction failures
+        } catch (ExtractionFailed $e) {
+            $message = $e->getTranslatable();
+            if ($message instanceof Translatable) {
+                $message = $context->sender()->getLanguage()->translate($message);
+            }
+            $context->sender()->sendMessage(TF::RED.$message);
+
             return;
         }
 

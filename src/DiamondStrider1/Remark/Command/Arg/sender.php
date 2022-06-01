@@ -49,7 +49,7 @@ final class sender implements Arg
     {
         $sender = $context->sender();
         if ($this->player && !$sender instanceof Player) {
-            throw new ExtractionFailed();
+            throw new ExtractionFailed('You must be a player to run this command!');
         }
 
         return $sender;

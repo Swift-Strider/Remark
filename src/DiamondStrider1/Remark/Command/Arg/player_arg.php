@@ -6,6 +6,7 @@ namespace DiamondStrider1\Remark\Command\Arg;
 
 use Attribute;
 use DiamondStrider1\Remark\Command\CommandContext;
+use pocketmine\lang\KnownTranslationFactory;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket as ACP;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 use pocketmine\player\Player as PmPlayer;
@@ -36,13 +37,15 @@ final class player_arg implements Arg
 
     public function extract(CommandContext $context, ArgumentStack $args): PmPlayer
     {
+        $component = $this->toUsageComponent($this->parameter->getName());
+        $name = $args->pop("Required argument $component");
         if ($this->exact) {
-            $player = Server::getInstance()->getPlayerExact($args->pop());
+            $player = Server::getInstance()->getPlayerExact($name);
         } else {
-            $player = Server::getInstance()->getPlayerByPrefix($args->pop());
+            $player = Server::getInstance()->getPlayerByPrefix($name);
         }
 
-        return $player ?? throw new ExtractionFailed();
+        return $player ?? throw new ExtractionFailed(KnownTranslationFactory::commands_generic_player_notFound());
     }
 
     public function toUsageComponent(string $name): ?string

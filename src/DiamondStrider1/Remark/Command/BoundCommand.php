@@ -6,10 +6,12 @@ namespace DiamondStrider1\Remark\Command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\lang\KnownTranslationFactory;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 use pocketmine\permission\Permissible;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginOwned;
+use pocketmine\utils\TextFormat as TF;
 
 /**
  * A registered command that dispatches to `HandlerMethod`s.
@@ -51,8 +53,15 @@ final class BoundCommand extends Command implements PluginOwned
     {
         $newArgs = [];
         $handlerMethod = $this->map->getMostNested($args, $newArgs);
-        // TODO: logic when handler method does not exist.
-        $handlerMethod?->invoke(new CommandContext($sender, $newArgs));
+        if (null === $handlerMethod) {
+            $message = $sender->getLanguage()->translate(
+                KnownTranslationFactory::commands_generic_usage($this->getUsage())
+            );
+            $sender->sendMessage(TF::RED.$message);
+
+            return;
+        }
+        $handlerMethod->invoke(new CommandContext($sender, $newArgs));
     }
 
     public function checkVisibility(Permissible $permissible): bool

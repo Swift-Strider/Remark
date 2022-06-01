@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DiamondStrider1\Remark\Command\Arg;
 
 use InvalidArgumentException;
+use pocketmine\lang\Translatable;
 
 /**
  * A stack of arguments that can be manipulated
@@ -46,13 +47,14 @@ final class ArgumentStack
      *
      * @throws ExtractionFailed
      */
-    public function peek(int $lookahead = 0): string
+    public function peek(string|Translatable $failMessage, int $lookahead = 0): string
     {
         if ($lookahead < 0) {
             throw new InvalidArgumentException('The lookahead must be greater than one!');
         }
 
-        return $this->args[$this->cursor + $lookahead] ?? throw new ExtractionFailed();
+        return $this->args[$this->cursor + $lookahead] ??
+            throw new ExtractionFailed($failMessage);
     }
 
     /**
@@ -74,8 +76,9 @@ final class ArgumentStack
      *
      * @throws ExtractionFailed
      */
-    public function pop(): string
+    public function pop(string|Translatable $failMessage): string
     {
-        return $this->args[$this->cursor++] ?? throw new ExtractionFailed();
+        return $this->args[$this->cursor++] ??
+            throw new ExtractionFailed($failMessage);
     }
 }
