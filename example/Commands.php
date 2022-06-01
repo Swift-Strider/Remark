@@ -50,5 +50,11 @@ final class Commands
         );
         $choice = $choice !== null ? $choice2response[$choice] : "Very Undecidable";
         $sender->sendMessage("You found the dance §g$choice!");
+        $result = yield from MySurveyForm::custom2gen($sender, 'Want to fill out this form?');
+        if (null === $result) {
+            $sender->sendMessage('You chose to skip the survey!');
+            return;
+        }
+        var_dump($result);
     }
 }
