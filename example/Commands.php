@@ -55,7 +55,7 @@ final class Commands
             );
 
             // Send a modal form that results in true or false
-            $isSure = yield from Forms::modal2gen($sender, 'Are you sure though?', 'Would you like to change your mind?');
+            $isSure = yield from Forms::modal2gen($sender, 'Are you sure though?', 'Last chance to change your mind!');
         } while (!$isSure);
         $choice = $choice !== null ? $choice2response[$choice] : "Very Undecidable";
         $sender->sendMessage("You found the dance §g$choice!");
