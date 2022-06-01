@@ -155,7 +155,7 @@ If it's corresponding parameter has the type
 automatically. Otherwise the type of the
 parameter must be CommandSender.
 
-`sender()` does not take any arguments.*
+*`sender()` does not take any arguments.*
 
 ## player_arg
 An `Arg` that extracts a `Player` using
@@ -183,7 +183,7 @@ bool $require = true,
 An `Arg` that extracts the remaining strings
 from the command arguments.
 
-`remaining()` does not take any arguments.*
+*`remaining()` does not take any arguments.*
 
 ## enum
 An `Arg` that extracts a string that must be
