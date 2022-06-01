@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-Easy and <u>A</u>synchronous Commands and Forms
+Easy and Asynchronous Commands and Forms
 </p>
 
 What you **WON'T** get:
