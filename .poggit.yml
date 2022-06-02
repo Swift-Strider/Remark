@@ -8,4 +8,8 @@ projects:
     type: library
     lint:
       phpstan: false
+    libs:
+      - src: sof3/await-generator/await-generator
+        version: ^3.3.0
+        epitope: .random
 ...
