@@ -8,7 +8,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\lang\KnownTranslationFactory;
 use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
-use pocketmine\permission\Permissible;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat as TF;
@@ -25,16 +24,17 @@ final class BoundCommand extends Command implements PluginOwned
 
     /**
      * @param string[] $aliases
-     * @param string[] $permissions
+     * @param ?string  $permission If set, one or more permissions separated by `;`
      */
     public function __construct(
         private Plugin $plugin,
         string $name,
         string $description,
         array $aliases,
-        private array $permissions,
+        ?string $permission,
     ) {
         parent::__construct($name, $description, null, $aliases);
+        $this->setPermission($permission);
         $this->map = new HandlerMethodTree();
         $this->overloads = new OverloadMap($name);
     }
@@ -62,17 +62,6 @@ final class BoundCommand extends Command implements PluginOwned
             return;
         }
         $handlerMethod->invoke(new CommandContext($sender, $newArgs));
-    }
-
-    public function checkVisibility(Permissible $permissible): bool
-    {
-        foreach ($this->permissions as $perm) {
-            if (!$permissible->hasPermission($perm)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

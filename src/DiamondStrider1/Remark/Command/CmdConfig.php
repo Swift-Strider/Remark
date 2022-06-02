@@ -17,13 +17,13 @@ final class CmdConfig
 {
     /**
      * @param string[] $aliases
-     * @param string[] $permissions
+     * @param string   $permission If set, one or more permissions separated by `;`
      */
     public function __construct(
         private string $name,
         private string $description,
         private array $aliases = [],
-        private array $permissions = [],
+        private ?string $permission = null,
     ) {
     }
 
@@ -45,11 +45,8 @@ final class CmdConfig
         return $this->aliases;
     }
 
-    /**
-     * @return string[]
-     */
-    public function permissions(): array
+    public function permission(): ?string
     {
-        return $this->permissions;
+        return $this->permission;
     }
 }

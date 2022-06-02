@@ -48,7 +48,7 @@ final class Remark
             $boundCommands[$config->name()] = new BoundCommand(
                 $plugin,
                 $config->name(), $config->description(), $config->aliases(),
-                $config->permissions(),
+                $config->permission(),
             );
         }
 
@@ -76,7 +76,7 @@ final class Remark
                 if (!isset($boundCommands[$cmd->name()])) {
                     $boundCommands[$cmd->name()] = new BoundCommand(
                         $plugin,
-                        $cmd->name(), '', [], [],
+                        $cmd->name(), '', [], null,
                     );
                 }
                 $bound = $boundCommands[$cmd->name()];
