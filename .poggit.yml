@@ -1,0 +1,11 @@
+build-by-default: true
+branches:
+- main
+projects:
+  Remark:
+    path: ""
+    model: virion
+    type: library
+    lint:
+      phpstan: false
+...
