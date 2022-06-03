@@ -4,5 +4,5 @@
 
 # Remark - Easy and Asynchronous Commands and Forms
 
-* [Quick Guide](https://swift-strider.github.io/Swift-Strider/Remark/quick-guide/index.html) - Learn Remark by building a plugin.
+* [Quick Guide](https://swift-strider.github.io/Remark/quick-guide/index.html) - Learn Remark by building a plugin.
 
