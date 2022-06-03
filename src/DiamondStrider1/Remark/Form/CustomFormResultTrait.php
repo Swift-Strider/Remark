@@ -25,7 +25,7 @@ use SOFe\AwaitGenerator\Await;
  * requirements:
  * - Must not be abstract
  * - Every property to be filled in...
- *     - May be attribute with any number of Label attributes
+ *     - May be marked with any number of Label attributes
  *     - Must be marked with at most one CustomFormElement that isn't Label
  *
  * Properties are filled in according to the non-Label attribute
