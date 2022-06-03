@@ -16,11 +16,11 @@ use JsonSerializable;
  * Minecraft will instantly load the image from
  * the resource pack.
  *
- * On Minecraft Windows 10, `url` images tend to not
+ * On Minecraft Windows 10, `url` images may not
  * show until ALT-TAB'ing out then back in Minecraft.
  *
  * An example location of a `path` type image is
- * "/textures/block/dirt.png" without the leading
+ * "textures/block/dirt.png" without the leading
  * slash.
  */
 final class MenuFormImage implements JsonSerializable
