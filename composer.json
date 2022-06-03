@@ -15,5 +15,10 @@
     "require": {
         "pocketmine/pocketmine-mp": "^4.0.0",
         "sof3/await-generator": "^3.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "DiamondStrider1\\Remark\\": "src/"
+        }
     }
 }
