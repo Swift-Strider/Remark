@@ -1,0 +1,6 @@
+[book]
+authors = ["DiamondStrider1"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The Remark Tutorial"

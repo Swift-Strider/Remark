@@ -3,3 +3,5 @@
 /.php-cs-fixer.cache
 
 /tools/phpstan/phpstan.neon
+
+/tutorial/book
