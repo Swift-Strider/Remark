@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace DiamondStrider1\Remark\Form;
 
 use Closure;
-use DiamondStrider1\Remark\Form\CustomFormElement\CustomFormElement;
+use DiamondStrider1\Remark\Form\CustomFormElement\Dropdown;
+use DiamondStrider1\Remark\Form\CustomFormElement\Input;
+use DiamondStrider1\Remark\Form\CustomFormElement\Label;
+use DiamondStrider1\Remark\Form\CustomFormElement\Slider;
+use DiamondStrider1\Remark\Form\CustomFormElement\StepSlider;
+use DiamondStrider1\Remark\Form\CustomFormElement\Toggle;
 use pocketmine\form\Form;
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
@@ -19,7 +24,7 @@ use pocketmine\player\Player;
 final class InternalCustomForm implements Form
 {
     /**
-     * @param array<int, CustomFormElement> $elements
+     * @param array<int, Dropdown|Input|Label|Slider|StepSlider|Toggle> $elements
      */
     public function __construct(
         private Closure $resolve,
@@ -31,28 +36,30 @@ final class InternalCustomForm implements Form
 
     public function handleResponse(Player $player, $data): void
     {
-        if (
-            null !== $data && !is_array($data)
-        ) {
+        if (null === $data) {
+            ($this->resolve)(null);
+        }
+
+        if (!is_array($data)) {
             $exception = new FormValidationException('Expected a response of type null|array, got type '.gettype($data).' instead!');
             ($this->reject)($exception);
             throw $exception;
         }
+
+        $extracted = [];
         try {
-            if (null !== $data) {
-                foreach ($this->elements as $index => $element) {
-                    if (!array_key_exists($index, $data)) {
-                        throw new FormValidationException("Expected response to have a value at index {$index}, but nothing was given!");
-                    }
-                    $element->validate($data[$index]);
+            foreach ($this->elements as $index => $element) {
+                if (!array_key_exists($index, $data)) {
+                    throw new FormValidationException("Expected response to have a value at index {$index}, but nothing was given!");
                 }
+                $extracted[$index] = $element->extract($data[$index]);
             }
         } catch (FormValidationException $e) {
             ($this->reject)($e);
             throw $e;
         }
 
-        ($this->resolve)($data);
+        ($this->resolve)($extracted);
     }
 
     public function jsonSerialize(): mixed

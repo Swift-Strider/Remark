@@ -7,6 +7,9 @@ namespace DiamondStrider1\Remark\Form\CustomFormElement;
 use Attribute;
 use pocketmine\form\FormValidationException;
 
+/**
+ * @phpstan-implements CustomFormElement<int>
+ */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class StepSlider implements CustomFormElement
 {
@@ -20,11 +23,13 @@ final class StepSlider implements CustomFormElement
     ) {
     }
 
-    public function validate(mixed $data): void
+    public function extract(mixed $data): int
     {
-        if (!is_int($data) && isset($this->steps[$data])) {
+        if (!is_int($data) || !isset($this->steps[$data])) {
             throw new FormValidationException('Invalid response to StepSlider element!');
         }
+
+        return $data;
     }
 
     public function jsonSerialize(): mixed

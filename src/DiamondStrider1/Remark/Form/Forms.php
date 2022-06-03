@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace DiamondStrider1\Remark\Form;
 
 use DiamondStrider1\Remark\Async\Thenable;
-use DiamondStrider1\Remark\Form\CustomFormElement\CustomFormElement;
+use DiamondStrider1\Remark\Form\CustomFormElement\Dropdown;
+use DiamondStrider1\Remark\Form\CustomFormElement\Input;
+use DiamondStrider1\Remark\Form\CustomFormElement\Label;
+use DiamondStrider1\Remark\Form\CustomFormElement\Slider;
+use DiamondStrider1\Remark\Form\CustomFormElement\StepSlider;
+use DiamondStrider1\Remark\Form\CustomFormElement\Toggle;
 use DiamondStrider1\Remark\Form\MenuFormElement\MenuFormButton;
 use Generator;
 use InvalidArgumentException;
@@ -122,7 +127,11 @@ final class Forms
         /* @phpstan-ignore-next-line */
         return Thenable::promise(function ($resolve, $reject) use ($player, $title, $content, $buttons) {
             $player->sendForm(new InternalMenuForm(
-                $resolve, $reject, $title, $content, $buttons
+                $resolve,
+                $reject,
+                $title,
+                $content,
+                $buttons
             ));
         });
     }
@@ -160,7 +169,11 @@ final class Forms
         /** @var ?int $response */
         $response = yield from Await::promise(function ($resolve, $reject) use ($player, $title, $content, $buttons) {
             $player->sendForm(new InternalMenuForm(
-                $resolve, $reject, $title, $content, $buttons
+                $resolve,
+                $reject,
+                $title,
+                $content,
+                $buttons
             ));
         });
 
@@ -177,7 +190,8 @@ final class Forms
      * recommended to use `Forms::menu2gen()` because of
      * AwaitGenerator's simpler syntax.
      *
-     * @param array<int, CustomFormElement> $elements
+     * @param array<int, Dropdown|Input|Label|Slider|StepSlider|Toggle> $elements
+     *
      * @phpstan-return Thenable<?array<int, mixed>, FormValidationException>
      */
     public static function custom2then(
@@ -197,7 +211,10 @@ final class Forms
         /* @phpstan-ignore-next-line */
         return Thenable::promise(function ($resolve, $reject) use ($player, $title, $elements) {
             $player->sendForm(new InternalCustomForm(
-                $resolve, $reject, $title, $elements
+                $resolve,
+                $reject,
+                $title,
+                $elements
             ));
         });
     }
@@ -211,7 +228,7 @@ final class Forms
      * `sof3/await-generator`, and the generator returns the
      * index of the button chosen by the player.
      *
-     * @param array<int, CustomFormElement> $elements
+     * @param array<int, Dropdown|Input|Label|Slider|StepSlider|Toggle> $elements
      *
      * @return Generator<mixed, mixed, mixed, ?array<int, mixed>>
      */
@@ -232,7 +249,10 @@ final class Forms
         /** @var ?array<int, mixed> $response */
         $response = yield from Await::promise(function ($resolve, $reject) use ($player, $title, $elements) {
             $player->sendForm(new InternalCustomForm(
-                $resolve, $reject, $title, $elements
+                $resolve,
+                $reject,
+                $title,
+                $elements
             ));
         });
 

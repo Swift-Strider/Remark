@@ -7,6 +7,9 @@ namespace DiamondStrider1\Remark\Form\CustomFormElement;
 use Attribute;
 use pocketmine\form\FormValidationException;
 
+/**
+ * @phpstan-implements CustomFormElement<string>
+ */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class Input implements CustomFormElement
 {
@@ -17,11 +20,13 @@ final class Input implements CustomFormElement
     ) {
     }
 
-    public function validate(mixed $data): void
+    public function extract(mixed $data): string
     {
         if (!is_string($data)) {
             throw new FormValidationException('Invalid response to Input element!');
         }
+
+        return $data;
     }
 
     public function jsonSerialize(): mixed

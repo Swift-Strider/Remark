@@ -7,6 +7,9 @@ namespace DiamondStrider1\Remark\Form\CustomFormElement;
 use Attribute;
 use pocketmine\form\FormValidationException;
 
+/**
+ * @phpstan-implements CustomFormElement<float>
+ */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class Slider implements CustomFormElement
 {
@@ -19,11 +22,13 @@ final class Slider implements CustomFormElement
     ) {
     }
 
-    public function validate(mixed $data): void
+    public function extract(mixed $data): float
     {
         if ((!is_float($data) && !is_int($data)) || $data < $this->min || $data > $this->max) {
             throw new FormValidationException('Invalid response to Slider element!');
         }
+
+        return (float) $data;
     }
 
     public function jsonSerialize(): mixed

@@ -7,6 +7,9 @@ namespace DiamondStrider1\Remark\Form\CustomFormElement;
 use Attribute;
 use pocketmine\form\FormValidationException;
 
+/**
+ * @phpstan-implements CustomFormElement<int>
+ */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class Dropdown implements CustomFormElement
 {
@@ -24,7 +27,7 @@ final class Dropdown implements CustomFormElement
     ) {
     }
 
-    public function validate(mixed $data): void
+    public function extract(mixed $data): int
     {
         if (
             (!is_int($data) || !isset($this->options[$data])) &&
@@ -32,6 +35,8 @@ final class Dropdown implements CustomFormElement
         ) {
             throw new FormValidationException('Invalid response to Dropdown element!');
         }
+
+        return $data;
     }
 
     public function jsonSerialize(): mixed
