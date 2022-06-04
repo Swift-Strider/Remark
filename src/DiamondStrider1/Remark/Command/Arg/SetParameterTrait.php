@@ -14,7 +14,7 @@ trait SetParameterTrait
 
     public function setParameter(ReflectionParameter $parameter): void
     {
-        $this->optional = $parameter->getType()->allowsNull() ?? false;
+        $this->optional = $parameter->getType()?->allowsNull() ?? false;
         $this->parameter = $parameter;
     }
 }
