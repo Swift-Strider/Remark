@@ -54,6 +54,12 @@ final class Remark
 
         $methods = $reflection->getMethods();
         foreach ($methods as $m) {
+            $cmdAttrs = $m->getAttributes(Cmd::class);
+            if (count($cmdAttrs) === 0){
+                // This method is not a HandlerMethod.
+                continue;
+            }
+
             $guards = $m->getAttributes(Guard::class, ReflectionAttribute::IS_INSTANCEOF);
             $guards = array_map(fn ($x) => $x->newInstance(), $guards);
             $args = $m->getAttributes(Arg::class, ReflectionAttribute::IS_INSTANCEOF);
@@ -61,7 +67,8 @@ final class Remark
             $parameters = $m->getParameters();
 
             if (count($parameters) !== count($args)) {
-                throw new InvalidArgumentException("There must be the same number of parameters as Arg's!");
+                $name = $m->getName();
+                throw new InvalidArgumentException("There must be the same number of parameters as Arg's for method $name!");
             }
 
             foreach ($args as $index => $arg) {
@@ -71,7 +78,7 @@ final class Remark
 
             $handlerMethod = new HandlerMethod($handler, $m, $guards, $args);
 
-            foreach ($m->getAttributes(Cmd::class) as $cmd) {
+            foreach ($cmdAttrs as $cmd) {
                 $cmd = $cmd->newInstance();
                 if (!isset($boundCommands[$cmd->name()])) {
                     $boundCommands[$cmd->name()] = new BoundCommand(
