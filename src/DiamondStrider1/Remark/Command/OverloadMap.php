@@ -36,10 +36,10 @@ final class OverloadMap
         }
 
         $overload = [];
-        foreach ($subNames as $subName) {
+        foreach ($subNames as $index => $subName) {
             $overload[] = CommandParameter::enum(
                 $subName,
-                new CommandEnum($subName, [$subName]),
+                new CommandEnum("param-$index-$subName", [$subName]),
                 CommandParameter::FLAG_FORCE_COLLAPSE_ENUM,
             );
         }
