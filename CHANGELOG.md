@@ -1,3 +1,6 @@
+# v1.1.2
+* Fix bug that treated non-HandlerMethods as HandlerMethods in `Remark::command()`.
+
 # v1.1.1
 * `permission()` Guard errors if any passed permission does not exist.
 * Fixed bug that caused an error when a player closed out of a Custom Form.
