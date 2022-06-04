@@ -24,7 +24,7 @@ final class permission implements Guard
         $this->permissions = [$permission, ...$otherPermissions];
 
         foreach ($this->permissions as $perm) {
-            if(PermissionManager::getInstance()->getPermission($perm) === null){
+            if (null === PermissionManager::getInstance()->getPermission($perm)) {
                 throw new InvalidArgumentException("Cannot use non-existing permission \"$perm\"");
             }
         }
