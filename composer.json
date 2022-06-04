@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "diamondstrider1/remark",
     "description": "UI virion (library) for PocketMine-MP plugins",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "type": "library",
     "license": "MIT",
     "authors": [

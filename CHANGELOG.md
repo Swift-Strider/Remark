@@ -1,3 +1,7 @@
+# v1.2.1
+* Fixed potentially crashing bug in SetParameterTrait.php
+* Fixed Composer settings so Arg's with underscores play nicely with static analyzers.
+
 # v1.2.0
 * Allow `Arg`'s to be optional by making the parameter's type accept null
 
