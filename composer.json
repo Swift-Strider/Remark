@@ -17,8 +17,8 @@
         "sof3/await-generator": "^3.3.0"
     },
     "autoload": {
-        "psr-0": {
-            "DiamondStrider1\\Remark\\": "src/"
+        "psr-4": {
+            "DiamondStrider1\\Remark\\": "src/DiamondStrider1/Remark/"
         }
     }
 }
