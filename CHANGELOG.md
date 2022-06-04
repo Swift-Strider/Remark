@@ -1,3 +1,6 @@
+# v1.2.0
+* Allow `Arg`'s to be optional by making the parameter's type accept null
+
 # v1.1.2
 * Fix bug that treated non-HandlerMethods as HandlerMethods in `Remark::command()`.
 
