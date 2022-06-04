@@ -38,6 +38,8 @@ final class InternalCustomForm implements Form
     {
         if (null === $data) {
             ($this->resolve)(null);
+
+            return;
         }
 
         if (!is_array($data)) {
