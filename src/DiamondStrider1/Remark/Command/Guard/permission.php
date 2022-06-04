@@ -6,8 +6,10 @@ namespace DiamondStrider1\Remark\Command\Guard;
 
 use Attribute;
 use DiamondStrider1\Remark\Command\CommandContext;
+use InvalidArgumentException;
 use pocketmine\lang\KnownTranslationFactory;
 use pocketmine\lang\Translatable;
+use pocketmine\permission\PermissionManager;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 final class permission implements Guard
@@ -20,6 +22,12 @@ final class permission implements Guard
         string ...$otherPermissions,
     ) {
         $this->permissions = [$permission, ...$otherPermissions];
+
+        foreach ($this->permissions as $perm) {
+            if(PermissionManager::getInstance()->getPermission($perm) === null){
+                throw new InvalidArgumentException("Cannot use non-existing permission \"$perm\"");
+            }
+        }
     }
 
     public function passes(CommandContext $context): null|string|Translatable
