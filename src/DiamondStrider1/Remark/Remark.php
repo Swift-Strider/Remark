@@ -55,7 +55,7 @@ final class Remark
         $methods = $reflection->getMethods();
         foreach ($methods as $m) {
             $cmdAttrs = $m->getAttributes(Cmd::class);
-            if (count($cmdAttrs) === 0){
+            if (0 === count($cmdAttrs)) {
                 // This method is not a HandlerMethod.
                 continue;
             }
