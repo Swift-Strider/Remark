@@ -45,7 +45,7 @@ final class sender implements Arg
         $this->parameter = $parameter;
     }
 
-    public function extract(CommandContext $context, ArgumentStack $args): mixed
+    public function extract(CommandContext $context, ArgumentStack $args): CommandSender
     {
         $sender = $context->sender();
         if ($this->player && !$sender instanceof Player) {

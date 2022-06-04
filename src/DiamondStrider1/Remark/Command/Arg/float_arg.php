@@ -12,7 +12,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 /**
  * Matches a float.
  *
- * @phpstan-implements Arg<float>
+ * @phpstan-implements Arg<float|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -22,10 +22,17 @@ final class float_arg implements Arg
 {
     use SetParameterTrait;
 
-    public function extract(CommandContext $context, ArgumentStack $args): float
+    public function extract(CommandContext $context, ArgumentStack $args): ?float
     {
         $component = $this->toUsageComponent($this->parameter->getName());
-        $value = $args->pop("Required argument $component");
+        if ($this->optional) {
+            $value = $args->tryPop();
+            if (null === $value) {
+                return null;
+            }
+        } else {
+            $value = $args->pop("Required argument $component");
+        }
         if (is_numeric($value)) {
             return (float) $value;
         }
@@ -34,11 +41,15 @@ final class float_arg implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: float>";
+        if ($this->optional) {
+            return "[$name: float]";
+        } else {
+            return "<$name: float>";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_FLOAT);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_FLOAT, 0, $this->optional);
     }
 }

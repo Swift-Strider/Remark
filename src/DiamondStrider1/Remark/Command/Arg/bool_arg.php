@@ -16,7 +16,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
  * - true: "true", "on", and "yes"
  * - false: "false", "off", and "no"
  *
- * @phpstan-implements Arg<bool>
+ * @phpstan-implements Arg<bool|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -26,10 +26,17 @@ final class bool_arg implements Arg
 {
     use SetParameterTrait;
 
-    public function extract(CommandContext $context, ArgumentStack $args): bool
+    public function extract(CommandContext $context, ArgumentStack $args): ?bool
     {
         $component = $this->toUsageComponent($this->parameter->getName());
-        $value = $args->pop("Required argument $component");
+        if ($this->optional) {
+            $value = $args->tryPop();
+            if (null === $value) {
+                return null;
+            }
+        } else {
+            $value = $args->pop("Required argument $component");
+        }
 
         return match ($value) {
             'true', 'on', 'yes' => true,
@@ -40,11 +47,15 @@ final class bool_arg implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: true|false>";
+        if ($this->optional) {
+            return "[$name: true|false]";
+        } else {
+            return "<$name: true|false>";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::enum($name, new CommandEnum('bool', ['true', 'false']), 0);
+        return CommandParameter::enum($name, new CommandEnum('bool', ['true', 'false']), 0, $this->optional);
     }
 }

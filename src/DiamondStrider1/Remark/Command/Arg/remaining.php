@@ -41,11 +41,11 @@ final class remaining implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: text>";
+        return "[$name: text]";
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_RAWTEXT);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_RAWTEXT, 0, true);
     }
 }

@@ -18,7 +18,7 @@ use ReflectionParameter;
  * Matches a Vector3 or a RelativeVector3
  * depending on the parameter type.
  *
- * @phpstan-implements Arg<Vector3|RelativeVector3>
+ * @phpstan-implements Arg<Vector3|RelativeVector3|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -28,6 +28,7 @@ final class vector_arg implements Arg
 {
     use SetParameterTrait;
 
+    private bool $optional;
     private bool $relative;
 
     public function setParameter(ReflectionParameter $parameter): void
@@ -43,16 +44,26 @@ final class vector_arg implements Arg
             throw new InvalidArgumentException("The parameter ($name) corresponding to `sender()` Arg must have a type of either CommandSender or Player!");
         }
 
+        $this->optional = $type->allowsNull();
         $this->relative = RelativeVector3::class === $type->getName();
         $this->parameter = $parameter;
     }
 
-    public function extract(CommandContext $context, ArgumentStack $args): Vector3|RelativeVector3
+    public function extract(CommandContext $context, ArgumentStack $args): Vector3|RelativeVector3|null
     {
         $component = $this->toUsageComponent($this->parameter->getName());
-        $x = $args->pop("Required argument $component");
-        $y = $args->pop("Required argument $component");
-        $z = $args->pop("Required argument $component");
+        if ($this->optional) {
+            $x = $args->tryPop();
+            $y = $args->tryPop();
+            $z = $args->tryPop();
+            if (null === $x || null === $y || null === $z) {
+                return null;
+            }
+        } else {
+            $x = $args->pop("Required argument $component");
+            $y = $args->pop("Required argument $component");
+            $z = $args->pop("Required argument $component");
+        }
 
         if ($this->relative) {
             [$vX, $oX] = $this->extractRelativeNumber($x);
@@ -97,11 +108,15 @@ final class vector_arg implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: x y z>";
+        if ($this->optional) {
+            return "<$name: x y z>";
+        } else {
+            return "[$name: x y z]";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_JSON);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_POSITION, 0, $this->optional);
     }
 }

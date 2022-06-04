@@ -12,7 +12,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
 /**
  * Matches one of a set of predefined constant strings.
  *
- * @phpstan-implements Arg<string>
+ * @phpstan-implements Arg<string|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -38,10 +38,17 @@ final class enum implements Arg
         }
     }
 
-    public function extract(CommandContext $context, ArgumentStack $args): mixed
+    public function extract(CommandContext $context, ArgumentStack $args): ?string
     {
         $component = $this->toUsageComponent($this->parameter->getName());
-        $choice = $args->pop("Required argument $component");
+        if ($this->optional) {
+            $choice = $args->tryPop();
+            if (null === $choice) {
+                return null;
+            }
+        } else {
+            $choice = $args->pop("Required argument $component");
+        }
         if (isset($this->choiceSet[$choice])) {
             return $choice;
         }
@@ -52,7 +59,11 @@ final class enum implements Arg
     {
         $choicesString = implode('|', $this->choices);
 
-        return "<$name: $choicesString>";
+        if ($this->optional) {
+            return "[$name: $choicesString]";
+        } else {
+            return "<$name: $choicesString>";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter

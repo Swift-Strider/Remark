@@ -13,7 +13,7 @@ use pocketmine\network\mcpe\protocol\types\command\CommandParameter;
  * Matches a string WITHOUT validating that
  * it's proper JSON.
  *
- * @phpstan-implements Arg<string>
+ * @phpstan-implements Arg<string|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -23,20 +23,28 @@ final class json_arg implements Arg
 {
     use SetParameterTrait;
 
-    public function extract(CommandContext $context, ArgumentStack $args): string
+    public function extract(CommandContext $context, ArgumentStack $args): ?string
     {
-        $component = $this->toUsageComponent($this->parameter->getName());
+        if ($this->optional) {
+            return $args->tryPop();
+        } else {
+            $component = $this->toUsageComponent($this->parameter->getName());
 
-        return $args->pop("Required argument $component");
+            return $args->pop("Required argument $component");
+        }
     }
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: json>";
+        if ($this->optional) {
+            return "[$name: json]";
+        } else {
+            return "<$name: json>";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_JSON);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_JSON, 0, $this->optional);
     }
 }

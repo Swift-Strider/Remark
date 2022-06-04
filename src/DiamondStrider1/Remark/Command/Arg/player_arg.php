@@ -17,7 +17,7 @@ use pocketmine\Server;
  * Optionally requires the given string to
  * exactly match a player's name.
  *
- * @phpstan-implements Arg<PmPlayer>
+ * @phpstan-implements Arg<PmPlayer|null>
  */
 #[Attribute(
     Attribute::IS_REPEATABLE |
@@ -35,10 +35,17 @@ final class player_arg implements Arg
     ) {
     }
 
-    public function extract(CommandContext $context, ArgumentStack $args): PmPlayer
+    public function extract(CommandContext $context, ArgumentStack $args): ?PmPlayer
     {
         $component = $this->toUsageComponent($this->parameter->getName());
-        $name = $args->pop("Required argument $component");
+        if ($this->optional) {
+            $name = $args->tryPop();
+            if (null === $name) {
+                return null;
+            }
+        } else {
+            $name = $args->pop("Required argument $component");
+        }
         if ($this->exact) {
             $player = Server::getInstance()->getPlayerExact($name);
         } else {
@@ -50,11 +57,15 @@ final class player_arg implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: target>";
+        if ($this->optional) {
+            return "[$name: target]";
+        } else {
+            return "<$name: target>";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_TARGET);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_TARGET, 0, $this->optional);
     }
 }

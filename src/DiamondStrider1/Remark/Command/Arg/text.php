@@ -103,11 +103,15 @@ final class text implements Arg
 
     public function toUsageComponent(string $name): ?string
     {
-        return "<$name: text>";
+        if ($this->require) {
+            return "<$name: text>";
+        } else {
+            return "[$name: text]";
+        }
     }
 
     public function toCommandParameter(string $name): ?CommandParameter
     {
-        return CommandParameter::standard($name, ACP::ARG_TYPE_RAWTEXT);
+        return CommandParameter::standard($name, ACP::ARG_TYPE_RAWTEXT, 0, !$this->require);
     }
 }
