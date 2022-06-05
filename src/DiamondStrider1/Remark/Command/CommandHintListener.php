@@ -11,6 +11,9 @@ use pocketmine\Server;
 
 final class CommandHintListener implements Listener
 {
+    /**
+     * @priority HIGH
+     */
     public function onDataPacketSend(DataPacketSendEvent $ev): void
     {
         foreach ($ev->getPackets() as $pk) {
