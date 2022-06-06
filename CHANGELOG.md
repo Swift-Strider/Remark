@@ -1,3 +1,6 @@
+# v1.2.2
+* Increased EventPriority of the AvailableCommandsPacket listener to HIGH.
+
 # v1.2.1
 * Fixed potentially crashing bug in SetParameterTrait.php
 * Fixed Composer settings so Arg's with underscores play nicely with static analyzers.
