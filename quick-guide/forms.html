@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Forms - The Remark Tutorial</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../quick-guide/index.html"><strong aria-hidden="true">1.</strong> Quick Guide</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../quick-guide/command_handling.html"><strong aria-hidden="true">1.1.</strong> Command Handling</a></li><li class="chapter-item expanded "><a href="../quick-guide/forms.html" class="active"><strong aria-hidden="true">1.2.</strong> Forms</a></li></ol></li><li class="chapter-item expanded "><a href="../in-depth/index.html"><strong aria-hidden="true">2.</strong> In Depth</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../in-depth/installing.html"><strong aria-hidden="true">2.1.</strong> Installing</a></li><li class="chapter-item expanded "><a href="../in-depth/commands.html"><strong aria-hidden="true">2.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="../in-depth/forms.html"><strong aria-hidden="true">2.3.</strong> Forms</a></li><li class="chapter-item expanded "><a href="../in-depth/command_args.html"><strong aria-hidden="true">2.4.</strong> Command Arg's</a></li><li class="chapter-item expanded "><a href="../in-depth/command_guards.html"><strong aria-hidden="true">2.5.</strong> Command Guard's</a></li><li class="chapter-item expanded "><a href="../in-depth/custom_form_elements.html"><strong aria-hidden="true">2.6.</strong> Custom Form Elements</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Remark Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="forms"><a class="header" href="#forms">Forms</a></h1>
+<p>Prerequisites:</p>
+<ul>
+<li>Basic knowledge of PHP</li>
+<li>Basic knowledge of PHP 8's attributes</li>
+</ul>
+<p>The main way to send forms to players is through Remark's <code>DiamondStrider1\Remark\Form\Forms</code> class. It contains the methods <code>modal2then()</code>, <code>modal2gen()</code>, <code>menu2then()</code>, <code>menu2gen()</code>, <code>custom2then()</code>, and <code>custom2gen()</code>. Methods ending in <code>gen</code> return an AwaitGenerator compatible generator that sends the form of its type and returns it's result. Methods ending in <code>then</code> exist in case AwaitGenerator isn't available, and return Thenable's that are resolved with the form's result.</p>
+<p>Let's continue the example from <a href="command_handling.html">Command Handling</a>.</p>
+<pre><code class="language-php">#[Cmd('helloworld'), permission('plugin.helloworld.use')]
+#[sender(), text()]
+public function myFirstCommand(CommandSender $sender, string $text): Generator
+{
+    $sender-&gt;sendMessage(&quot;§aHello Command Handling! - $text&quot;);
+    $response = yield from AsyncApi::fetch($text);
+    if ($sender instanceof Player &amp;&amp; !$sender-&gt;isConnected()) {
+        return;
+    }
+    $sender-&gt;sendMessage(&quot;Got Response: $response&quot;);
+}
+</code></pre>
+<p>For those not familiar with Remark's <a href="command_handling.html">command handling</a>, the method <code>myFirstCommand()</code> will be ran whenever a player (or the console) runs <code>/helloworld</code> and has the permission <code>plugin.helloworld.use</code>.</p>
+<h2 id="modalform"><a class="header" href="#modalform">ModalForm</a></h2>
+<p>Starting off simple, we will send the player a yes/no modal form. Modal forms cannot be closed out of, if you try to hit <code>ESC</code> the game doesn't acts as if you had pressed the no button.</p>
+<pre><code class="language-php">/** @var bool $choice */
+$choice = yield from Forms::modal2gen(
+    $sender,
+    'What is your favorite ice cream?',
+    'Pick from these ice cream flavors.',
+);
+$choice = match ($choice) {
+    true =&gt; '§aYes',
+    false =&gt; '§cNo',
+};
+$sender-&gt;sendMessage(&quot;You said {$choice}§r.&quot;);
+</code></pre>
+<p>Notice we don't have to check if the player's online because when a PocketMine guarantees the player is still connected when a form is submitted.</p>
+<h2 id="menuform"><a class="header" href="#menuform">MenuForm</a></h2>
+<p>Let's now give the player a menu form with options to choose from.</p>
+<pre><code class="language-php">/** @var ?int $choice */
+$choice = yield from Forms::menu2gen(
+    $sender,
+    'What is your favorite ice cream?',
+    'Pick from these ice cream flavors.',
+    [
+        new MenuFormButton('Vanilla'),
+        new MenuFormButton('Blueberry'),
+        new MenuFormButton('Lime'),
+    ]
+);
+if (null !== $choice) {
+    $choice = ['vanilla', 'blueberry', 'lime'][$choice];
+    $sender-&gt;sendMessage(&quot;You chose §g{$choice}§r.&quot;);
+}
+</code></pre>
+<p>A MenuFormButton can also have an attached MenuFormImage like so.</p>
+<pre><code class="language-php">new MenuFormButton('My Button', new MenuFormImage(type: 'url', location: 'https://my.image.com/image'))
+new MenuFormButton('My Button', new MenuFormImage(type: 'path', location: 'textures/blocks/dirt.png'))
+</code></pre>
+<h2 id="customform"><a class="header" href="#customform">CustomForm</a></h2>
+<p>Now for the most complex type of form. A custom form sends a list of elements for the player to fill out and a submit button to press when the player is finished. Remark gives you two ways to create a custom form. First we will start with the <code>custom2gen()</code>/<code>custom2then()</code> method.</p>
+<pre><code class="language-php">/** @var array&lt;int, mixed&gt; $response */
+$response = yield from Forms::custom2gen(
+    $sender,
+    'What is your favorite ice cream?',
+    [
+        new Label('Type a valid ice cream flavor!'),
+        new Input('Ice Cream Flavor', placeholder: 'Vanilla'),
+    ]
+);
+$sender-&gt;sendMessage(&quot;You said {$response[1]}§r.&quot;);
+</code></pre>
+<p>Using this method of sending custom forms, you have to index the response data with the index of the element. Remark already handles the validation for you.</p>
+<p>Another way to make custom forms is through attributes.</p>
+<pre><code class="language-php">use DiamondStrider1\Remark\Form\CustomFormElement\Label;
+use DiamondStrider1\Remark\Form\CustomFormElement\Input;
+use DiamondStrider1\Remark\Form\CustomFormResultTrait;
+
+final class MySurveyForm
+{
+    use CustomFormResultTrait;
+
+    #[Label('Type a valid ice cream flavor!')]
+    #[Input('Ice Cream Flavor', placeholder: 'Vanilla')]
+    public string $name;
+}
+</code></pre>
+<pre><code class="language-php">/** @var MySurveyForm $formResult */
+$formResult = yield from MySurveyForm::custom2gen(
+    $sender, 'What is your favorite ice cream?'
+);
+$sender-&gt;sendMessage(&quot;You said {$formResult-&gt;name}§r.&quot;);
+</code></pre>
+<p>The CustomFormResultTrait adds the static functions <code>custom2gen()</code> and <code>custom2then()</code> that take a player and a title for the form. It's recommended that you mark form fields as public so they are easily accessible.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../quick-guide/command_handling.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../in-depth/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../quick-guide/command_handling.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../in-depth/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
