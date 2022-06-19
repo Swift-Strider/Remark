@@ -100,6 +100,9 @@ final class vector_arg implements Arg
         $numeric = $raw;
         if (str_starts_with($raw, '~')) {
             $isOffset = true;
+            if ('~' === $raw) {
+                return [0, true];
+            }
             $numeric = substr($raw, 1, strlen($raw) - 1);
         }
 
