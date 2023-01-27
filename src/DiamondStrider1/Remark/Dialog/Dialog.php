@@ -42,7 +42,6 @@ class Dialog
         $this->buttons = array_filter([...$buttons, ...$removed[$offset + count($buttons)]]);
 
         // TODO: resend buttons.
-        $this->validateButtons();
 
         return $this;
     }
@@ -53,6 +52,8 @@ class Dialog
         // TODO: close().
         return $this;
     }
+
+    private bool $sentBefore = false;
 
     /**
      * This function returns a Thenable that may be used when
@@ -68,10 +69,11 @@ class Dialog
      */
     public function then() : Thenable {
         if ($this->player->isOnline()) {
-
+            if (!$this->sentBefore || $this->dialogEntity->alwaysProcess) {
+                ($this->dialogEntity->entityProcessor)($this->player);
+                $this->sentBefore = true;
+            }
         }
-
-        // TODO: sendThen().
     }
 
     /**
