@@ -12,39 +12,21 @@ class Dialog
 {
     /**
      * Creates an NPC dialog that consists of a title, content,
-     * an entity to be mirrored, and at max 6 buttons. The player
-     * must either choose a single button or close the dialog.
+     * an entity to be mirrored, and at max 6 buttons (generally).
+     * The player must either choose a single button or close the
+     * dialog.
      * The array of buttons passed to this function must be a
      * list, meaning its first entry's key is zero, the next
      * being one, etc.
-     *
-     * @param array<int, string> $buttons
      */
     private function __construct(
         private Player $player,
         private string $title,
         private string $content,
-        private Entity $entity,
-        private array $buttons,
+        private DialogEntity $entity,
+        private DialogButtonMap $buttons,
         private bool $explicitClose = false,
     ) {
-        $this->validateButtons();
-    }
-
-    private const MAX_BUTTONS = 6;
-
-    private function validateButtons() : void {
-        if ([] !== $this->buttons || $this->buttons !== array_values($this->buttons)) {
-            $expected = 0;
-            foreach (array_keys($this->buttons) as $index) {
-                if ($index !== $expected++) {
-                    throw new InvalidArgumentException('The passed array of buttons is not a list!');
-                }
-            }
-        }
-        if (count($this->buttons) > self::MAX_BUTTONS) {
-            throw new InvalidArgumentException('At max ' . self::MAX_BUTTONS . ' buttons can be passed! (if you are not expecting this overflow, please check the stacktrace (backtrace) for more details.)');
-        }
     }
 
     /**
@@ -78,19 +60,25 @@ class Dialog
      * recommended to use `Forms::dialog2gen()` because of
      * AwaitGenerator's simpler syntax.
      *
-     * @phpstan-return Thenable<?int>
+     * Notice that unlike forms, dialogs can be resent before
+     * a player response to it. In such case, a null will take
+     * place of a DialogResponse.
+     *
+     * @phpstan-return Thenable<?DialogResponse>
      */
-    public function sendThen() : Thenable {
+    public function then() : Thenable {
         if ($this->player->isOnline()) {
 
         }
+
         // TODO: sendThen().
     }
 
     /**
-     * @return \Generator<mixed, mixed, mixed, >
+     * @return \Generator<mixed, mixed, mixed, ?DialogResponse>
+     * TODO: complete doc.
      */
-    public function sendGen() : \Generator {
+    public function gen() : \Generator {
         yield from Await::promise(fn($resolve, $reject) => $this->sendThen()->then($resolve, $reject));
     }
 }
