@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Dialog;
+namespace DiamondStrider1\Remark\Dialogue
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
@@ -13,21 +13,23 @@ use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
 use pocketmine\player\Player;
 
 /**
- * Contains an {@link self::entityProcessor} which will be
- * called before sending the dialog.
+ * This class was introduced to encapsulate process details
+ * before an entity can be displayed on a dialogue
  */
 class DialogEntity
 {
     /**
-     * False = process entity only when the dialog is sent first.
+     * False = process entity only when the dialogueis sent first.
      */
     public bool $alwaysProcess = false;
 
     /**
-     * @param \Closure(Player): int $entityProcessor Returns the entity runtime ID.
+     * @param \Closure(Player): int $entityProcessor Called before sending dialoguefor getting the entity runtime ID.
+     * @param \Closure(Player): void $entityGarbager Called when closing dialoguefor clean-ups.
      */
     private function __construct(
         public \Closure $entityProcessor
+        public ?\Closure $entityGarbager = null
     ) {
     }
 
@@ -37,7 +39,7 @@ class DialogEntity
      * type ID of {@link EntityIds::PLAYER}.
      * For any others, {@link self::normal()} will be chosen.
      *
-     * If you wish to send a dialog without an entity, you may use {@link self::fake()}.
+     * If you wish to send a dialoguewithout an entity, you may use {@link self::fake()}.
      */
     public static function auto(Entity $entity) : self {
         return $entity->getNetworkTypeId() === EntityIds::PLAYER
@@ -54,7 +56,7 @@ class DialogEntity
      * Regarding entities with the network type ID of
      * {@link EntityIds::PLAYER} (players / NPCs / actors with
      * custom geomtry), there is a client-side rendering problem
-     * that their body sink into the lower half of a dialog.
+     * that their body sink into the lower half of a dialogue
      *
      * This is why such a workaround exists:
      */
@@ -70,7 +72,7 @@ class DialogEntity
             ]
         ]);
 
-        return new self(function ($player, $skinIndex) {
+        return new self(function ($player) use ($entity, $skinIndex) {
             // Inheritance seems more suitable here, but sorry,
             // @Endermanbugzjfc is way more lazier than you thought.
             (self::normal($entity)->entityProcessor)($player);
@@ -96,7 +98,7 @@ class DialogEntity
     }
 
     /**
-     * Dialog without an entity.
+     * Dialoguewithout an entity.
      *
      * Digression:
      * A menu (simple) form would be better in this case, where
@@ -105,8 +107,8 @@ class DialogEntity
      * content or force-closing before the viewer responses.
      */
     public static function fake() : self {
-        return new self(function ($player) {
-            $id = Entity::nextRuntimeId();
+        $id = Entity::nextRuntimeId();
+        return new self(function ($player) use ($id) {
             $player->getNetworkSession()->sendDataPacket(
                 AddActorPacket::create(
                     $id,
@@ -128,6 +130,8 @@ class DialogEntity
             );
 
             return $id;
+        }, function ($player) use ($id) {
+            $player->getNetworkSession()->sendDataPacket(RemoveActorPacket::create($id));
         });
     }
 }

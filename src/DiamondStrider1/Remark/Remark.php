@@ -11,12 +11,13 @@ use DiamondStrider1\Remark\Command\CmdConfig;
 use DiamondStrider1\Remark\Command\CommandHintListener;
 use DiamondStrider1\Remark\Command\Guard\Guard;
 use DiamondStrider1\Remark\Command\HandlerMethod;
+use DiamondStrider1\Remark\Dialog\Dialog;
 use InvalidArgumentException;
-use pocketmine\command\CommandMap;
-use pocketmine\plugin\Plugin;
-use pocketmine\Server;
 use ReflectionAttribute;
 use ReflectionClass;
+use pocketmine\Server;
+use pocketmine\command\CommandMap;
+use pocketmine\plugin\Plugin;
 
 /**
  * The static utility class responsible for binding
@@ -101,5 +102,6 @@ final class Remark
     {
         $pm = Server::getInstance()->getPluginManager();
         $pm->registerEvents(new CommandHintListener(), $plugin);
+        Dialog::activate($plugin);
     }
 }
