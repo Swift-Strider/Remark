@@ -38,7 +38,7 @@ final class Thenable
     private array $onReject = [];
 
     /**
-     * See `Thenable::create` for making a new Thenable.
+     * See `Thenable::promise` for making a new Thenable.
      */
     private function __construct()
     {
