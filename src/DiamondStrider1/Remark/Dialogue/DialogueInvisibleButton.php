@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace DiamondStrider1\Remark\Dialogue;
 
 /**
- * The basic button type. Consists of a text and command line.
+ * Vanilla Minecraft misleadingly named this a "button", while it
+ * basically is just a placeholder / wrapper for command line.
+ * Because this "button" would not appear on the dialogue at all.
  * The command line can be seen in the "Advanced Settings" page when
  * editing a dialogue.
  *
+ * TODO: Test invis button functionality.
+ *
+ * @see DialogueButton
  * @see DialogueURLButton
- * @see DialogueInvisibleButton
  */
 class DialogueButton implements DialogueButtonInterface
 {
+    public const MODE_ON_ENTER = self::PROTOCOL_MODE_ON_ENTER;
+    public const MODE_ON_CLOSE = self::PROTOCOL_MODE_ON_CLOSE;
+
     public static function __construct(
-        private string $text,
+        public int $mode,
         private string $commandLine = "",
         private int $commandVersion = self::PROTOCOL_CMD_VER
     ) {
@@ -34,11 +41,9 @@ class DialogueButton implements DialogueButtonInterface
                 "cmd_line" => $this->commandLine, // TODO: test cmd line.
                 "cmd_ver" => $this->commandVersion
             ],
-            "mode" => self::PROTOCOL_MODE_BUTTON,
+            "mode" => $this->mode,
             "type" => self::PROTOCOL_TYPE_COMMAND
         ];
     }
-
-    public static function mapButtonClass
 
 }

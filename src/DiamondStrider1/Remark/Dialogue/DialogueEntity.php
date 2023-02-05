@@ -68,7 +68,7 @@ class DialogueEntity
                 "scale" => [1, 1, 1],
                 "translate" => [0, self::PICKER_OFFSET, 0]
             ]
-        ]);
+        ]) ?? throw new \AssertionError('json_encode(skin index) should never fail!');
 
         return new self(function ($player, $skinIndex) {
             // Inheritance seems more suitable here, but sorry,
