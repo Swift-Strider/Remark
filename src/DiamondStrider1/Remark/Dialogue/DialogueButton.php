@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Dialog;
+namespace DiamondStrider1\Remark\Dialogue;
 
-class DialogButton implements \JsonSerializable
+class DialogueButton implements \JsonSerializable
 {
     public function __construct(
     ) {

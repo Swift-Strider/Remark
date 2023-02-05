@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Dialog;
+namespace DiamondStrider1\Remark\Dialogue;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
@@ -14,12 +14,12 @@ use pocketmine\player\Player;
 
 /**
  * Contains an {@link self::entityProcessor} which will be
- * called before sending the dialog.
+ * called before sending the dialogue.
  */
-class DialogEntity
+class DialogueEntity
 {
     /**
-     * False = process entity only when the dialog is sent first.
+     * False = process entity only when the dialogue is sent first.
      */
     public bool $alwaysProcess = false;
 
@@ -37,7 +37,7 @@ class DialogEntity
      * type ID of {@link EntityIds::PLAYER}.
      * For any others, {@link self::normal()} will be chosen.
      *
-     * If you wish to send a dialog without an entity, you may use {@link self::fake()}.
+     * If you wish to send a dialogue without an entity, you may use {@link self::fake()}.
      */
     public static function auto(Entity $entity) : self {
         return $entity->getNetworkTypeId() === EntityIds::PLAYER
@@ -54,7 +54,7 @@ class DialogEntity
      * Regarding entities with the network type ID of
      * {@link EntityIds::PLAYER} (players / NPCs / actors with
      * custom geomtry), there is a client-side rendering problem
-     * that their body sink into the lower half of a dialog.
+     * that their body sink into the lower half of a dialogue.
      *
      * This is why such a workaround exists:
      */
@@ -96,7 +96,7 @@ class DialogEntity
     }
 
     /**
-     * Dialog without an entity.
+     * Dialogue without an entity.
      *
      * Digression:
      * A menu (simple) form would be better in this case, where

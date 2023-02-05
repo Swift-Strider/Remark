@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DiamondStrider1\Remark\Dialog;
+namespace DiamondStrider1\Remark\Dialogue;
 
 use DiamondStrider1\Remark\Async\Thenable;
 use SOFe\AwaitGenerator\Await;
@@ -17,27 +17,27 @@ use pocketmine\plugin\Plugin;
 /**
  * "Change" refers to client-side requests of changing content.
  * "Mutate" refers to plugin operations of changing content.
- * A dialog instance represent ONLY one dialog session, which ends
+ * A dialogue instance represent ONLY one dialogue session, which ends
  * when it closes.
  */
-class Dialog {
+class Dialogue {
     /**
-     * Creates an NPC dialog in which its content consists of a
+     * Creates an NPC dialogue in which its content consists of a
      * title, body (text), an entity to be mirrored, and at max
      * 6 buttons (generally).
      * The player must either choose a single button or close the
-     * dialog.
+     * dialogue.
      * The array of buttons passed to this function must be a
      * list, meaning its first entry's key is zero, the next
      * being one, etc.
      *
-     * @param DialogButton[] $buttons
+     * @param DialogueButton[] $buttons
      */
     private function __construct(
         private Player $player,
         private string $title,
         private string $body,
-        private DialogEntity $entity,
+        private DialogueEntity $entity,
         private array $buttons,
         public bool $explicitClose = false,
         // public bool $silentAcceptTitle = false,
@@ -51,7 +51,7 @@ class Dialog {
      * @param array<int, string> $buttons
      */
     public function mutateButtons(array $buttons, int $offset = 0) : self {
-        if ($this->closed) $this->except("Mutate buttons on a closed dialog!", "You might want to enable Dialog::explicitClose.");
+        if ($this->closed) $this->except("Mutate buttons on a closed dialogue!", "You might want to enable Dialogue::explicitClose.");
 
         $removed = array_splice($this->buttons, $offset, $buttons);
         // $removed = everything start at offset til the end of the original array.
@@ -67,11 +67,11 @@ class Dialog {
     private bool $closed;
 
     /**
-     * End this dialog session (instance).
+     * End this dialogue session (instance).
      */
     public function close() : void {
         if ($this->closed) {
-            $this->except("Close of closed dialog!", "This is redundant if you have enabled Dialogue::explicitClose.");
+            $this->except("Close of closed dialogue!", "This is redundant if you have enabled Dialogue::explicitClose.");
         }
         if ($this->player->isOnline()) {
             ($this->entity->entityProcessor)($this->player);
@@ -80,29 +80,29 @@ class Dialog {
     }
 
     /**
-     * True = dialog has already been sent first.
+     * True = dialogue has already been sent first.
      * This field exists to control the calling of
-     * {@link DialogEntity::entityProcessor}.
+     * {@link DialogueEntity::entityProcessor}.
      */
     private bool $sentBefore = false;
 
     /**
-     * Initial mutate = construction of this dialog instance.
-     * (Opens this dialog session).
+     * Initial mutate = construction of this dialogue instance.
+     * (Opens this dialogue session).
      */
     private bool $mutated = true;
 
     /**
      * This function returns a Thenable that may be used when
      * `sof3/await-generator` is not present. Otherwise it's
-     * recommended to use `Forms::dialog2gen()` because of
+     * recommended to use `Forms::dialogue2gen()` because of
      * AwaitGenerator's simpler syntax.
      *
-     * Notice that unlike forms, dialogs can be resent before
+     * Notice that unlike forms, dialogues can be resent before
      * a player response to it. In such case, a null will take
-     * place of a DialogResponse.
+     * place of a DialogueResponse.
      *
-     * @phpstan-return Thenable<?DialogResponse>
+     * @phpstan-return Thenable<?DialogueResponse>
      */
     public function then() : Thenable {
         if ($this->lock) $this->except("Resend before handling response!", "Every response has to be explicitly accept() or cancel().");
@@ -129,7 +129,7 @@ class Dialog {
     }
 
     /**
-     * @return \Generator<mixed, mixed, mixed, ?DialogResponse>
+     * @return \Generator<mixed, mixed, mixed, ?DialogueResponse>
      * TODO: complete doc.
      */
     public function gen() : \Generator {
@@ -137,7 +137,7 @@ class Dialog {
     }
 
     /**
-     * Verify if packet is correspond to a dialog instance.
+     * Verify if packet is correspond to a dialogue instance.
      */
     public function verify(NpcRequestPacket $pk) : bool {
         // TODO: verify().
@@ -153,17 +153,17 @@ class Dialog {
                     $event->cancel(); // Prevent console from spamming.
                     $player = $event->getOrigin()->getPlayer();
                     if ($player === null) {
-                        $plugin->getLogger()->warning("Connection {$event->getOrigin()->getDisplayName()} might be abusing packets related to NPC dialog!");
+                        $plugin->getLogger()->warning("Connection {$event->getOrigin()->getDisplayName()} might be abusing packets related to NPC dialogue!");
                         return;
                     }
 
-                    [$dialog, $resolve, $reject] = self::$dialogUeueue[$player->getName()] ?? null;
-                    if (!($dialog?->verify($pk) ?? false)) {
+                    [$dialogue, $resolve, $reject] = self::$dialogueUeueue[$player->getName()] ?? null;
+                    if (!($dialogue?->verify($pk) ?? false)) {
                         return;
                     }
-                    $unlocker = fn() => $dialog->lock = false;
+                    $unlocker = fn() => $dialogue->lock = false;
 
-                    $respArgs = [$dialog, $unlocker];
+                    $respArgs = [$dialogue, $unlocker];
                     $resp = null;
                     switch ($pk->requestType) {
                         // REQUEST_SET_ACTIONS is received when the
@@ -171,9 +171,9 @@ class Dialog {
                         // but we need more debugging to know the all types of actions
                         // for now, we just handle the button changed
                         case NpcRequestPacket::REQUEST_SET_ACTIONS:
-                        $resp = new DialogButtonChangeResponse(...$respArgs);
+                        $resp = new DialogueButtonChangeResponse(...$respArgs);
                         try {
-                            $resp->buttons = DialogButton::jsonUnserialize($packet->commandString);
+                            $resp->buttons = DialogueButton::jsonUnserialize($packet->commandString);
                         } catch (\JsonException $err) {
                                 $reject($err); // TODO: sec vul.
                                 return;
@@ -183,15 +183,15 @@ class Dialog {
                         // REQUEST_EXECUTE_ACTION is received when player pressed the button
                         // Endermanbugzjfc: I use press instead of click because the word was also used in other places of this lib.
                             case NpcRequestPacket::REQUEST_EXECUTE_ACTION:
-                            $resp = new DialogButtonPressResponse(...$respArgs);
-                            $button = $dialog->buttons[$packet->actionIndex] ?? null;
+                            $resp = new DialogueButtonPressResponse(...$respArgs);
+                            $button = $dialogue->buttons[$packet->actionIndex] ?? null;
                             if ($button === null) {
-                                $reject(new DialogException("Button index overflow!"));
+                                $reject(new DialogueException("Button index overflow!"));
                                 return;
                             }
                             break;
 
-                        // REQUEST_SET_NAME is received when player tried to change the dialog's name
+                        // REQUEST_SET_NAME is received when player tried to change the dialogue's name
                         /*
                         $newName = $packet->commandString;
                         $npcDialogue->onSetNameRequested($newName);
@@ -200,7 +200,7 @@ class Dialog {
                         case NpcRequestPacket::REQUEST_SET_NAME:
                         break;
 
-                        // REQUEST_SET_INTERACTION_TEXT is received when player tried to modify the dialog body
+                        // REQUEST_SET_INTERACTION_TEXT is received when player tried to modify the dialogue body
                         // TODO
                         case NpcRequestPacket::REQUEST_SET_INTERACTION_TEXT:
                         break;
@@ -227,9 +227,9 @@ class Dialog {
     private bool $lock = false;
 
     /**
-     * @throws DialogException
+     * @throws DialogueException
      */
     private function except(string $err, string $help) : void {
-        throw new DialogException("$err ($help)");
+        throw new DialogueException("$err ($help)");
     }
 }
