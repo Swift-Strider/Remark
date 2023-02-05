@@ -33,11 +33,4 @@ class DialogueURLButton implements DialogueButtonInterface
             "type" => self::PROTOCOL_TYPE_URL
         ];
     }
-
-    public const PROTOCOL_TYPE_URL = 0;
-    public const PROTOCOL_TYPE_COMMAND = 1;
-    public const PROTOCOL_CMD_VER = 17;
-    public const PROTOCOL_MODE_BUTTON = 0;
-    public const PROTOCOL_MODE_ON_CLOSE = 1;
-    public const PROTOCOL_MODE_ON_ENTER = 0;
 }
